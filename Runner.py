@@ -23,9 +23,9 @@ class Runner:
         normalized_data = DataService.normalize(data, method='z')
         normalized_feature_data = normalized_data[:, 2:]
 
-        self.train_with_gradient_descent(feature_data, labels, normalized_feature_data, labels)
+        self.train_with_gradient_descent(data, labels, normalized_feature_data, labels)
 
-    def train_with_gradient_descent(self, feature_data, labels_data, normalized_feature_data, normalized_labels):
+    def train_with_gradient_descent(self, data, labels_data, normalized_feature_data, normalized_labels):
 
         self.logistic_regression_learner.train(normalized_feature_data, normalized_labels)
 
@@ -81,6 +81,24 @@ class Runner:
         cost = self.logistic_regression_learner.calculate_cost(predictions, normalized_labels)
         print("Final Normalized Cost: ", cost)
 
+        # self.print_error_stats(data, labels_data, predictions, rounded_predictions)
+
+    @staticmethod
+    def print_error_stats(data, labels_data, predictions, rounded_predictions):
+        record_ids = data[:, 0].flatten()
+        np.set_printoptions(suppress=True)
+        # | Record ID | Label | Predicted Malignant Probability | Absolute Error | LogIt Error | Prediction Error |
+        for i in range(labels_data.shape[0]):
+            record_id = record_ids[i]
+            label = 'Malignant' if labels_data[i] == 1 else 'Benign'
+            malignant_probability = predictions[i]
+            abs_error = np.abs(labels_data[i] - predictions[i])
+            log_it_error = -labels_data[i] * np.log(predictions[i]) if labels_data[i] == 1 else \
+                (1 - labels_data[i]) * np.log(1 - predictions[i])
+            prediction_error = np.abs(labels_data[i] - rounded_predictions[i])
+            print('|{0}|{1}|{2}|{3}|{4}|{5}|'.format(int(record_id), label, np.around(malignant_probability, 4),
+                                                   np.around(abs_error, 4), np.around(log_it_error, 4), prediction_error
+                                                     ))
 
 if __name__ == "__main__":
 
