@@ -1,6 +1,13 @@
-Logistic Regression for the Wisconsin Breast Cancer Dataset:
+Logistic Regression from scratch
 
+## Dataset
+Wisconsin Breast Cancer:  
 https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+(Diagnostic)
+
+## Purpose
+Gain familiarity with the algorithm by developing it from scratch.
+Hence, best ML practices such as train/test/cross-validation splits 
+are NOT prioritized.
 
 ## Training Learning Curve
 
